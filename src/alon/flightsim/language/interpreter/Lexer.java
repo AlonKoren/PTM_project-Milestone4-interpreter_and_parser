@@ -23,7 +23,7 @@ public class Lexer
                     if (!token.startsWith("\""))
                     {
 //                String[] splittedByMathChars = token.split("((?<=[^A-Za-z0-9])|(?=[^A-Za-z0-9]))");
-                        String[] splittedByMathChars = token.split("(?<=[-+*/()])|(?=[-+*/()])");
+                        String[] splittedByMathChars = token.split("(?<=[-+*/()=])|(?=[-+*/()=])");
 
                         for (String word : splittedByMathChars)
                         {
@@ -45,5 +45,13 @@ public class Lexer
 
     public static List<String> Lexer(String script) {
         return Lexer(new InputStreamReader(new ByteArrayInputStream(script.getBytes())));
+    }
+
+    public static List<String> Lexer(String[] script) {
+        List<String> list =new ArrayList<>();
+        for (String line : script) {
+            list.addAll(Lexer.Lexer(line));
+        }
+        return list;
     }
 }

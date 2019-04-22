@@ -3,9 +3,6 @@ package alon.flightsim.language.command;
 import alon.flightsim.Environment;
 
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PrintCommand implements Command
 {
@@ -26,7 +23,8 @@ public class PrintCommand implements Command
         else {
             word = env.getValue(word)+"";
         }
-        System.out.println(word);
+        env.getClient().sendLine(word);
+//        System.out.println(word);
         return 3;
     }
 

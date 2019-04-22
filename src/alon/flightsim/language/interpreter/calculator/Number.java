@@ -17,6 +17,8 @@ public class Number implements Expression
         try {
             return environment.getValue(this.value);
         }catch (RuntimeException ignore){
+//            System.err.println("value = "+value+"\n"+ignore.getMessage());
+//            ignore.printStackTrace();
             return Double.parseDouble(value);
         }
     }

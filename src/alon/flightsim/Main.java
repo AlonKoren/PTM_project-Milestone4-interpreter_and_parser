@@ -16,12 +16,13 @@ public class Main {
     public static void main(String[] args) {
         Parser parser = new Parser(env);
         env.setParser(parser);
-        env.setServer(new DataReaderServer());
+        env.setServer(new DataReaderServer(env));
         env.setClient(new SimpleClient());
         File file=new File("./src/alon/flightsim/eli_script.txt");
         try {
             List<String> lexer = Lexer.Lexer(new FileReader(file));
-            lexer.stream().forEach(s -> System.out.print(s+","));
+//            lexer.stream().forEach(s -> System.out.print(s+","));
+//            System.out.println();
             parser.parse(lexer);
 
         } catch (FileNotFoundException e) {

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="interpreter">
+    <output-path>$PROJECT_DIR$/out/artifacts/interpreter</output-path>
+    <root id="archive" name="interpreter.jar">
+      <element id="module-output" name="project" />
+      <element id="module-source" name="project" />
+    </root>
+  </artifact>
+</component>

@@ -22,9 +22,9 @@ public class MainTrain
 
 		String[] test2={
 				"var x",	
-				"x="+rand,	
-				"var y=x+3",	
-				"return y"	
+				"x="+rand,
+				"var y=x+3",
+				"return y"
 		};
 		
 		if(MyInterpreter.interpret(test2)!=rand+3)

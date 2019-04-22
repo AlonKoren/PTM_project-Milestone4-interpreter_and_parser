@@ -21,6 +21,7 @@ public class VariableDeclarationCommand implements Command {
     @Override
     public int execute(List<String> arguments)
     {
+//        System.out.println(arguments);
         // validate arguments
 //        System.out.println("----------------------------------");
 //        env.getSymbolTable().entrySet().stream().forEach(new Consumer<Map.Entry<String, Double>>() {
@@ -44,8 +45,11 @@ public class VariableDeclarationCommand implements Command {
         {
             n++;
         }
+        if (arguments.get(1+n).equals(Lexer.EOL))
+            return n+2;
         if (arguments.get(2+n).equals("bind"))
         {
+
             String key = arguments.get(0 + n);
             String path = arguments.get(3+n);
 

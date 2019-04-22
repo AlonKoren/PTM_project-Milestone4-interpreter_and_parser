@@ -19,11 +19,18 @@ public class DataReaderServer implements Server
     private HashMap<String, Double> serverData = new HashMap<>(); ///  symbol table of the simulator
     private boolean stop = false;
     private Thread serverThread;
+    private final Environment env;
+
+    public DataReaderServer(Environment env)
+    {
+        this.env = env;
+    }
+
 
     @Override
     public void listen(int port,int timeout)
     {
-        System.out.printf("listen server on port %d\n",port);
+//        System.out.printf("listen server on port %d\n",port);
         serverThread = new Thread(() -> {
             try
             {
@@ -34,6 +41,7 @@ public class DataReaderServer implements Server
                     try
                     {
                         Socket aClient = server.accept(); // blocking call
+//                        System.out.println("-> client connected");
                         try
                         {
                             InputStream clientInputStream = aClient.getInputStream();
@@ -43,15 +51,15 @@ public class DataReaderServer implements Server
                         }
                         catch (IOException e)
                         {
-                            System.out.println("-> Received an IOException: " + e.getMessage());
+//                            System.out.println("-> Received an IOException: " + e.getMessage());
                         }
                     }
                     catch (SocketTimeoutException e)
                     {
-                        System.out.println("-> No client connected within the set timeout, trying again...");
+//                        System.out.println("-> No client connected within the set timeout, trying again...");
                     }
                 }
-                System.out.println("-> Closing server");
+//                System.out.println("-> Closing server");
                 server.close();
             }
             catch (IOException e)
@@ -70,8 +78,13 @@ public class DataReaderServer implements Server
         {
             while ((line = in.readLine()) != null)
             {
-                System.out.println("Received from simulator: " + line);
+//                System.out.println("Received from simulator: " + line);
                 // TODO implement map population
+                String[] split = line.split(",");
+                for (String s : split) {
+                    Double d =Double.parseDouble(s);
+                    env.getDefultValues().add(d);
+                }
             }
         }
         catch (IOException e)

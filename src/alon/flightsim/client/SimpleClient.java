@@ -14,7 +14,7 @@ public class SimpleClient implements Client
     {
         try
         {
-            System.out.printf("connect client to server on %s::%d\n",ip,port);
+//            System.out.printf("connect client to server on %s::%d\n",ip,port);
             socket = new Socket(ip, port);
             Thread.sleep(1000);
             InputStream inputStream = socket.getInputStream();
@@ -35,23 +35,13 @@ public class SimpleClient implements Client
     @Override
     public void set(String path, Double value)
     {
-        try
-        {
-            PrintWriter toClient = new PrintWriter(socket.getOutputStream());
-            toClient.println("set " + path + " " + value);
-            toClient.flush();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        this.sendLine("set " + path + " " + value);
     }
 
     @Override
     public Double getValue(String path) {
 //        System.out.println("path="+path);
-        printWriter.println("get "+path);
-        printWriter.flush();
+        this.sendLine("get "+path);
         try {
             String s = in.readLine();
 //            System.out.println("text from simulator:"+s);
@@ -65,6 +55,12 @@ public class SimpleClient implements Client
     }
 
     @Override
+    public void sendLine(String line) {
+        printWriter.println(line);
+        printWriter.flush();
+    }
+
+    @Override
     public void close()
     {
         try
@@ -73,7 +69,12 @@ public class SimpleClient implements Client
         }
         catch (IOException e)
         {
-            e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isClose() {
+        if (socket ==null) return true;
+        return socket.isClosed();
     }
 }

@@ -1,9 +1,6 @@
 package test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -50,16 +47,32 @@ public class Simulator {
 				try{
 					Socket client=server.accept();
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
+//					PrintWriter out = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
 					String line=null;
 					while(!(line=in.readLine()).equals("bye")){
 						try{
+//							System.out.println("text sim sim ="+line);
 							if(line.startsWith("set simX"))
 								simX=Double.parseDouble(line.split(" ")[2]);
 							if(line.startsWith("set simY"))
 								simY=Double.parseDouble(line.split(" ")[2]);
 							if(line.startsWith("set simZ"))
 								simZ=Double.parseDouble(line.split(" ")[2]);
-						}catch(NumberFormatException e){}
+//							if(line.startsWith("get simX")) {
+//								out.println("simX = '"+simX+"' (double)");
+//								out.flush();
+//							}
+//							if(line.startsWith("get simY")){
+//								out.println("simY = '"+simY+"' (double)");
+//								out.flush();
+//							}
+//							if(line.startsWith("get simZ")){
+//								out.println("simZ = '"+simZ+"' (double)");
+//								out.flush();
+//							}
+						}catch(NumberFormatException e){
+							e.printStackTrace();
+						}
 					}
 					in.close();
 					client.close();
