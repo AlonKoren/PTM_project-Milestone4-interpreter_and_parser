@@ -23,8 +23,8 @@ public class PrintCommand implements Command
         else {
             word = env.getValue(word)+"";
         }
-        env.getClient().sendLine(word);
-//        System.out.println(word);
+//        env.getClient().sendLine(word);
+        System.out.println(word);
         return 3;
     }
 
