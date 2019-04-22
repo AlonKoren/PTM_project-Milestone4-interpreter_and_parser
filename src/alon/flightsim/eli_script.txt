@@ -13,8 +13,6 @@ var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
 breaks = 0
 throttle = 1
 var h0 = heading
-var alon = (-throttle * -(1+23)/3*0 + 4*5)/4
-var try = 0
 while alt < 1000 {
    rudder = (h0 – heading)/20
    aileron = - roll / 70

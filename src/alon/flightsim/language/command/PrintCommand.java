@@ -24,7 +24,7 @@ public class PrintCommand implements Command
         if (word.startsWith("\"") && word.endsWith("\""))
             word =word.substring(word.indexOf("\"")+1,word.lastIndexOf("\""));
         else {
-            word = env.getSymbolTable().get(word)+"";
+            word = env.getValue(word)+"";
         }
         System.out.println(word);
         return 3;

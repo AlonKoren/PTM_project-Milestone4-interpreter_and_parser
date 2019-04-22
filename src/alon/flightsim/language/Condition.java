@@ -1,46 +1,82 @@
 package alon.flightsim.language;
 
 
+import alon.flightsim.Environment;
+import alon.flightsim.language.interpreter.Lexer;
+import alon.flightsim.language.interpreter.calculator.ShuntingYard;
+
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
-public class Condition {
+public class Condition
+{
+    Predicate<Void> stringPredicate;
 
-    private final int parsedWords;
-
-    public Condition(Map<String, Double> symbolTable, List<String> args) {
-        parsedWords = 5;
-    }
-
-    public int getParsedWords() {
-        return parsedWords;
-    }
-
-    public boolean evaluate() {
-        // TODO: impl
-        return false;
-    }
-/*
-    private boolean condition(String variable, String operator, String value)
+    public Condition(Environment environment, List<String> arguments)
     {
-        switch (operator)
+        List<String> stringList = arguments.subList(1, arguments.indexOf(Lexer.EOL)-1 );
+
+        int indexsplit;
+        if ((indexsplit = stringList.indexOf(">="))!=-1)
         {
-            case "<":
-                return env.getSymbolTable().get(variable) < Double.valueOf(value);
-            case ">":
-                return server.getData().get(variable) > Double.valueOf(value);
-            case "<=":
-                return server.getData().get(variable) <= Double.valueOf(value);
-            case ">=":
-                return server.getData().get(variable) >= Double.valueOf(value);
-            case "==":
-                return server.getData().get(variable).equals(Double.valueOf(value));
-            case "!=":
-                return !server.getData().get(variable).equals(Double.valueOf(value));
-            default:
-                return false;
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) >= ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
         }
+        else if ((indexsplit = stringList.indexOf("<="))!=-1)
+        {
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) <= ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
+        }
+        else if ((indexsplit = stringList.indexOf("=="))!=-1)
+        {
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) == ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
+        }
+        else if ((indexsplit = stringList.indexOf("!="))!=-1)
+        {
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) != ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
+        }
+        else if ((indexsplit = stringList.indexOf(">"))!=-1)
+        {
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) > ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
+        }
+        else if ((indexsplit = stringList.indexOf("<"))!=-1)
+        {
+            int finalIndexsplit = indexsplit;
+            stringPredicate = s -> {
+                List<String> leftOperand=stringList.subList(0, finalIndexsplit );
+                List<String> rightOperand=stringList.subList(finalIndexsplit +1,stringList.size());
+                return ShuntingYard.calc(String.join("", leftOperand), environment) < ShuntingYard.calc(String.join("", rightOperand), environment);
+            };
+        }
+        else
+            throw new RuntimeException("no operators founds");// TODO check in the future about while true or false
     }
-*/
+
+    public boolean evaluate()
+    {
+        return stringPredicate.test(null);
+    }
 }

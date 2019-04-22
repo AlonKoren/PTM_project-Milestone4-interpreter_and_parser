@@ -24,6 +24,7 @@ public class Parser
                 new ConnectToClientCommand(env),
                 new OpenDataServerCommand(env),
                 new VariableDeclarationCommand(env),
+                new SleepCommand(env),
                 new WhileCommand(env)
         ).collect(toMap(Command::getName, identity()));
     }

@@ -40,6 +40,7 @@ public class ShuntingYard {
     static int flag=0;
     private static ArrayList<String> SplitStringExpression(String expression) throws Exception
     {
+        expression = expression.replace('–','-');
         //System.out.println(expression);
         ArrayList<String> arrayList=new ArrayList<>();
         String[] expressionchar =expression.split("");
@@ -85,7 +86,7 @@ public class ShuntingYard {
                 arrayList.add(expressionchar[i]);
             }
             else {
-                throw new Exception("Wrong input at index= "+i+" as char= '"+expressionchar[i]+"'");
+                throw new Exception("Wrong input at index= "+i+" as char= '"+expressionchar[i]+"' for expression='"+expression+"'");
             }
 
         }

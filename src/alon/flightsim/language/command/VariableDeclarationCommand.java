@@ -19,7 +19,8 @@ public class VariableDeclarationCommand implements Command {
 
 
     @Override
-    public int execute(List<String> arguments){
+    public int execute(List<String> arguments)
+    {
         // validate arguments
 //        System.out.println("----------------------------------");
 //        env.getSymbolTable().entrySet().stream().forEach(new Consumer<Map.Entry<String, Double>>() {
@@ -29,31 +30,49 @@ public class VariableDeclarationCommand implements Command {
 //            }
 //        });
 //        System.out.println("----------------------------------");
+//        System.out.println("**********************************");
+//        env.getBindTable().entrySet().stream().forEach(new Consumer<Map.Entry<String, String>>() {
+//            @Override
+//            public void accept(Map.Entry<String, String> stringDoubleEntry) {
+//                System.out.println(stringDoubleEntry.getKey()+"\t:\t"+stringDoubleEntry.getValue());
+//            }
+//        });
+//        System.out.println("**********************************");
 //        System.out.println("key word "+arguments.get(0));
         int n=0;
         if(arguments.get(0).equals("var"))
         {
             n++;
         }
-        if (arguments.get(2+n).equals("bind")) {
-            String word = arguments.get(3+n);
+        if (arguments.get(2+n).equals("bind"))
+        {
+            String key = arguments.get(0 + n);
+            String path = arguments.get(3+n);
 
-            if (word.startsWith("\"") && word.endsWith("\""))
-                word =word.substring(word.indexOf("\"")+1,word.lastIndexOf("\""));
-//            System.out.println("text="+word);
-            env.getSymbolTable().put(arguments.get(0+n), env.getClient().getValue(word));
+            if (path.startsWith("\"") && path.endsWith("\""))
+                path =path.substring(path.indexOf("\"")+1,path.lastIndexOf("\""));
+//            System.out.println("text="+path);
+            env.addBind(key,path);
             return 5+n;
-        }else {
-            String key =arguments.get(0+n);
-            List<String> stringList = arguments.subList(2 + n, arguments.indexOf(Lexer.EOL) );
-            String collect = String.join("", stringList);
-            Double value = ShuntingYard.calc(collect, env);
-//            System.out.println(key+" now = "+value);
-//            System.out.println("'"+key+"'='"+valuetext+"'");
-            env.getSymbolTable().put(key,value);
-            env.getClient().set(key,value);
-            return 3+n+stringList.size();
         }
+        else
+            {
+                String key =arguments.get(0+n);
+                List<String> stringList = arguments.subList(2 + n, arguments.indexOf(Lexer.EOL) );
+                String collect = String.join("", stringList);
+                Double value = ShuntingYard.calc(collect, env);
+//              System.out.println(key+" now = "+value);
+//              System.out.println("'"+key+"'='"+valuetext+"'");
+
+                env.setValue(key,value);
+
+//                env.getSymbolTable().put(key,value);
+//                if (env.getBindTable().containsKey(key))
+//                {
+//                    env.getClient().set(env.getBindTable().get(key),value);
+//                }
+                return 3+n+stringList.size();
+            }
     }
 
     @Override

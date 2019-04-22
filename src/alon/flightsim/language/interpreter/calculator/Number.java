@@ -14,7 +14,11 @@ public class Number implements Expression
 
     public Double getValue()
     {
-        return environment.getSymbolTable().containsKey(value)?environment.getSymbolTable().get(value):Double.parseDouble(value);
+        try {
+            return environment.getValue(this.value);
+        }catch (RuntimeException ignore){
+            return Double.parseDouble(value);
+        }
     }
 
     public void setValue(double value)
