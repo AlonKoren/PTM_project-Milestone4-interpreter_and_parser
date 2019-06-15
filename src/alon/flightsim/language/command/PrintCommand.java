@@ -20,10 +20,8 @@ public class PrintCommand implements Command
         String word = arguments.get(1);
         if (word.startsWith("\"") && word.endsWith("\""))
             word =word.substring(word.indexOf("\"")+1,word.lastIndexOf("\""));
-        else {
+        else
             word = env.getValue(word)+"";
-        }
-//        env.getClient().sendLine(word);
         System.out.println(word);
         return 3;
     }

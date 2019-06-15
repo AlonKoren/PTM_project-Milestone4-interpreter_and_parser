@@ -11,19 +11,9 @@ public abstract class BinaryExpression implements Expression
         this.right = right;
     }
 
-    public Expression getLeft()
-    {
-        return left;
-    }
-
     public void setLeft(Expression left)
     {
         this.left = left;
-    }
-
-    public Expression getRight()
-    {
-        return right;
     }
 
     public void setRight(Expression right)

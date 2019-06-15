@@ -7,25 +7,22 @@ public class Number implements Expression
     private Environment environment;
     private String value;
 
-    public Number(String value,Environment environment) {
+    public Number(String value,Environment environment)
+    {
         this.environment = environment;
         this.value = value;
     }
 
     public Double getValue()
     {
-        try {
+        try
+        {
             return environment.getValue(this.value);
-        }catch (RuntimeException ignore){
-//            System.err.println("value = "+value+"\n"+ignore.getMessage());
-//            ignore.printStackTrace();
+        }
+        catch (RuntimeException ignore)
+        {
             return Double.parseDouble(value);
         }
-    }
-
-    public void setValue(double value)
-    {
-        this.value = value+"";
     }
 
     @Override
@@ -35,7 +32,8 @@ public class Number implements Expression
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return this.value;
     }
 }

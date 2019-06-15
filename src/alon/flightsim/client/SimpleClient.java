@@ -43,7 +43,8 @@ public class SimpleClient implements Client
 //        System.out.println("path="+path);
         this.sendLine("get "+path);
         try {
-            String s = in.readLine();
+            String s=null;
+            while (!(s = in.readLine()).contains(path));
 //            System.out.println("text from simulator:"+s);
             String substring = s.substring(s.indexOf("'")+1, s.lastIndexOf("'"));
 //            System.out.println("word="+substring);
@@ -56,6 +57,7 @@ public class SimpleClient implements Client
 
     @Override
     public void sendLine(String line) {
+//        System.out.println(line);
         printWriter.println(line);
         printWriter.flush();
     }

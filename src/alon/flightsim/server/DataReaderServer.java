@@ -2,7 +2,6 @@ package alon.flightsim.server;
 
 
 import alon.flightsim.Environment;
-import alon.flightsim.client.SimpleClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class DataReaderServer implements Server
         this.env = env;
     }
 
-
     @Override
     public void listen(int port,int timeout)
     {
@@ -34,7 +32,7 @@ public class DataReaderServer implements Server
         serverThread = new Thread(() -> {
             try
             {
-                ServerSocket server = new ServerSocket(port);
+                ServerSocket server = new ServerSocket(port,timeout);
                 server.setSoTimeout(5000);
                 while (!stop)
                 {
@@ -70,33 +68,29 @@ public class DataReaderServer implements Server
         serverThread.start();
     }
 
-    private void handleClient(InputStream inputStream,int timeout)
-    {
+    private void handleClient(InputStream inputStream,int timeout) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         String line;
-        try
+        while ((line = in.readLine()) != null)
         {
-            while ((line = in.readLine()) != null)
-            {
 //                System.out.println("Received from simulator: " + line);
-                // TODO implement map population
-                String[] split = line.split(",");
-                for (String s : split) {
-                    Double d =Double.parseDouble(s);
-                    env.getDefultValues().add(d);
-                }
+            // TODO implement map population
+            String[] split = line.split(",");
+            for (String s : split)
+            {
+                Double d =Double.parseDouble(s);
+                env.getDefaultValues().add(d);
             }
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
     public void stop()
     {
         stop = true;
+        if (serverThread !=null)
+            serverThread.interrupt();
     }
 
     @Override
@@ -106,8 +100,15 @@ public class DataReaderServer implements Server
     }
 
     @Override
-    public Double getValue(String key) {
+    public Double getValue(String key)
+    {
         return getData().get(key);
+    }
+
+    @Override
+    public void setValue(String key,double value)
+    {
+        getData().put(key,value);
     }
 
     @Override

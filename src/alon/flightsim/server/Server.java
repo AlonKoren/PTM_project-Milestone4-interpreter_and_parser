@@ -8,5 +8,6 @@ public interface Server
     void stop();
     Thread serverThread();
     Double getValue(String key);
+    void setValue(String key, double value);
     Map<String, Double> getData();
 }

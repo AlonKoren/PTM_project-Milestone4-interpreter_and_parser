@@ -7,14 +7,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class ShuntingYard {
-    public static Double calc(String strexpression,Environment environment){
-//        System.out.println("***************************");
+public class ShuntingYard
+{
+    public static Double calc(String strexpression,Environment environment)
+    {
         ArrayList<String> arrayList;
         Queue<String> queue;
         Stack<Expression> stack;
         Expression expression;
-        try {
+        try
+        {
 //            System.out.println("SplitStringExpression");
 //            System.out.println("strexpression="+strexpression);
             arrayList = SplitStringExpression(strexpression);
@@ -25,15 +27,16 @@ public class ShuntingYard {
 //            System.out.println("stack="+stack);
             expression=StackExpressiontoExpression(stack,environment);
 //            System.out.println("expression="+expression.toString());
-        } catch (Exception e) {
-
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return 0.0;
         }
         double d=expression.calculate();
-        d*=100;
-        d=Math.floor(d);
-        d/=100;
+        d *= 100;
+        d = Math.floor(d);
+        d /= 100;
 //        System.out.println("***************************");
         return d;
     }
@@ -60,38 +63,42 @@ public class ShuntingYard {
                 for(;i<expressionchar.length&&((('0'<=expressionchar[i].charAt(0)&&expressionchar[i].charAt(0)<='9')||
                             ('a'<=expressionchar[i].charAt(0)&&expressionchar[i].charAt(0)<='z')||
                             ('A'<=expressionchar[i].charAt(0)&&expressionchar[i].charAt(0)<='Z'))
-                        ||expressionchar[i].charAt(0)=='.');i++)
+                            ||expressionchar[i].charAt(0)=='.');i++)
                 {
-
                     num+=expressionchar[i].charAt(0);
                 }
                 arrayList.add(num);
                 num="";
                 i--;
-                if (flag==1){
+                if (flag==1)
+                {
                     arrayList.add(")");
                     flag=0;
                 }
             }
-            else if(IsBineryExpression(expressionchar[i])||
+            else
+                if(IsBineryExpression(expressionchar[i])||
                     expressionchar[i].equals("(")||expressionchar[i].equals(")"))
-            {
-                if (flag!=0) {
-                    if (expressionchar[i].equals("(")) {
-                        flag++;
-                    } else if (expressionchar[i].equals(")")) {
-                        flag--;
+                {
+                    if (flag!=0)
+                    {
+                        if (expressionchar[i].equals("("))
+                        {
+                            flag++;
+                        }
+                        else
+                            if (expressionchar[i].equals(")"))
+                            {
+                                flag--;
+                            }
                     }
+                    arrayList.add(expressionchar[i]);
                 }
-                arrayList.add(expressionchar[i]);
-            }
-            else {
-                throw new Exception("Wrong input at index= "+i+" as char= '"+expressionchar[i]+"' for expression='"+expression+"'");
-            }
-
+                else
+                    {
+                        throw new Exception("Wrong input at index= "+i+" as char= '"+expressionchar[i]+"' for expression='"+expression+"'");
+                    }
         }
-
-
         //System.out.println("arrayList = "+arrayList.toString());
         //System.out.println("size = "+arrayList.size());
         return arrayList;
@@ -101,54 +108,54 @@ public class ShuntingYard {
     {
         Stack<String> stack=new Stack<>();
         Queue<String> queue=new LinkedList<>();
-        for (String str : arrayListexpression) {
-
+        for (String str : arrayListexpression)
+        {
             if(IsNumber(str))
             {
                 queue.add(str);
             }
-            else if(IsBineryExpression(str))
-            {
-
-                while((!stack.isEmpty())&&IsGreaterPrecedence(str,stack.peek()))
-                {
-                    queue.add(stack.pop());
-                }
-                stack.push(str);
-            }
             else
-            {
-                switch (str) {
-                    case "(":
-                        stack.push(str);
-                        break;
-                    case ")":
+                if(IsBineryExpression(str))
+                {
+                    while((!stack.isEmpty())&&IsGreaterPrecedence(str,stack.peek()))
                     {
-                        boolean flag=false;
-                        while(!stack.isEmpty())
-                        {
-                            if(stack.peek().equals("("))
-                            {
-                                stack.pop();
-                                flag=true;
-                                break;
-                            }
-                            else
-                            {
-                                queue.add(stack.pop());
-                            }
-                        }
-                        if(stack.isEmpty()&&!flag)
-                        {
-                            throw new Exception("Too many ')' then '('");
-                        }
-                        break;
+                        queue.add(stack.pop());
                     }
-                    default:
-                        throw new Exception("Error= "+str);
-                        //break;
+                    stack.push(str);
                 }
-            }
+                else
+                    {
+                        switch (str)
+                        {
+                            case "(":
+                                stack.push(str);
+                                break;
+                            case ")":
+                                {
+                                    boolean flag=false;
+                                    while(!stack.isEmpty())
+                                    {
+                                        if(stack.peek().equals("("))
+                                        {
+                                            stack.pop();
+                                            flag=true;
+                                            break;
+                                        }
+                                        else
+                                            {
+                                                queue.add(stack.pop());
+                                            }
+                                    }
+                                    if(stack.isEmpty()&&!flag)
+                                    {
+                                        throw new Exception("Too many ')' then '('");
+                                    }
+                                    break;
+                                }
+                             default:
+                                 throw new Exception("Error= "+str);
+                        }
+                    }
         }
 
         while(!stack.isEmpty())
@@ -174,27 +181,30 @@ public class ShuntingYard {
             {
                 return false;
             }
-            for (int i=1;i<str.length();i++) {
+            for (int i=1;i<str.length();i++)
+            {
                 char ch=str.charAt(i);
                 if(!((('0'<=ch&&ch<='9') ||('a'<=ch&&ch<='z')||('A'<=ch&&ch<='Z'))
                         ||ch=='.'))
                 {
-
                     return false;
                 }
             }
         }
-        else {
-            for (char ch : str.toCharArray()) {
-                if(!((('0'<=ch&&ch<='9') ||('a'<=ch&&ch<='z')||('A'<=ch&&ch<='Z'))
-                        ||ch=='.'))
+        else
+            {
+                for (char ch : str.toCharArray())
                 {
-                    return false;
+                    if(!((('0'<=ch&&ch<='9') ||('a'<=ch&&ch<='z')||('A'<=ch&&ch<='Z'))
+                            ||ch=='.'))
+                    {
+                        return false;
+                    }
                 }
             }
-        }
         return true;
     }
+
     private static boolean IsBineryExpression(String str)
     {
         switch(str)
@@ -207,11 +217,13 @@ public class ShuntingYard {
                 return false;
         }
     }
+
     private static Number StringtoNumber(String str,Environment environment)
     {
         Number number=new Number(str,environment);
         return number;
     }
+
     private static BinaryExpression StringtoBineryExpression(String str)
     {
         BinaryExpression binaryExpression=null;
@@ -245,17 +257,19 @@ public class ShuntingYard {
     private static boolean IsGreaterPrecedence(String binexp,String binexpstack)
     /////binexp<=binexpstack
     {
-        switch (binexpstack) {
+        switch (binexpstack)
+        {
             case "*":case "/":
             {
                 if(binexp.equals("*")||binexp.equals("/"))
                 {
                     return true;
                 }
-                else if(binexp.equals("+")||binexp.equals("-"))
-                {
-                    return true;
-                }
+                else
+                    if(binexp.equals("+")||binexp.equals("-"))
+                    {
+                        return true;
+                    }
             }
             case "+":case "-":
             {
@@ -263,10 +277,11 @@ public class ShuntingYard {
                 {
                     return false;
                 }
-                else if(binexp.equals("+")||binexp.equals("-"))
-                {
-                    return true;
-                }
+                else
+                    if(binexp.equals("+")||binexp.equals("-"))
+                    {
+                        return true;
+                    }
             }
             default:
                 break;
@@ -283,10 +298,11 @@ public class ShuntingYard {
             {
                 expressions.push(StringtoNumber(queue.remove(),environment));
             }
-            else if(IsBineryExpression(queue.peek()))
-            {
-                expressions.push(StringtoBineryExpression(queue.remove()));
-            }
+            else
+                if(IsBineryExpression(queue.peek()))
+                {
+                    expressions.push(StringtoBineryExpression(queue.remove()));
+                }
         }
         return expressions;
     }

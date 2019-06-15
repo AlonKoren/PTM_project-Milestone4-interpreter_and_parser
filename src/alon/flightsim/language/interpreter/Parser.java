@@ -1,12 +1,12 @@
 package alon.flightsim.language.interpreter;
 
 
+import alon.flightsim.Environment;
+import alon.flightsim.language.command.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import alon.flightsim.Environment;
-import alon.flightsim.language.command.*;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
@@ -16,7 +16,8 @@ public class Parser
     private final Map<String, Command> commands;
     private final Environment env;
 
-    public Parser(Environment env) {
+    public Parser(Environment env)
+    {
         this.env = env;
 
         commands = Stream.of(

@@ -1,7 +1,6 @@
 package alon.flightsim.language.command;
 
 import alon.flightsim.Environment;
-import alon.flightsim.server.DataReaderServer;
 import java.util.List;
 import static java.lang.Integer.parseInt;
 
@@ -18,7 +17,6 @@ public class OpenDataServerCommand implements Command
     @Override
     public int execute(List<String> args)
     {
-//        env.setServer(new DataReaderServer());
         env.getServer().listen(parseInt(args.get(1)), parseInt(args.get(2)));
         return 4;
     }

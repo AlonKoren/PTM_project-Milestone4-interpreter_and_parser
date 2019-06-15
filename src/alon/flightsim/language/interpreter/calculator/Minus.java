@@ -12,8 +12,10 @@ public class Minus extends BinaryExpression
     {
         return left.calculate()-right.calculate();
     }
+
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder=new StringBuilder();
         if (left != null)
             builder.append(left.toString());

@@ -47,29 +47,15 @@ public class Simulator {
 				try{
 					Socket client=server.accept();
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
-//					PrintWriter out = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
 					String line=null;
 					while(!(line=in.readLine()).equals("bye")){
 						try{
-//							System.out.println("text sim sim ="+line);
 							if(line.startsWith("set simX"))
 								simX=Double.parseDouble(line.split(" ")[2]);
 							if(line.startsWith("set simY"))
 								simY=Double.parseDouble(line.split(" ")[2]);
 							if(line.startsWith("set simZ"))
 								simZ=Double.parseDouble(line.split(" ")[2]);
-//							if(line.startsWith("get simX")) {
-//								out.println("simX = '"+simX+"' (double)");
-//								out.flush();
-//							}
-//							if(line.startsWith("get simY")){
-//								out.println("simY = '"+simY+"' (double)");
-//								out.flush();
-//							}
-//							if(line.startsWith("get simZ")){
-//								out.println("simZ = '"+simZ+"' (double)");
-//								out.flush();
-//							}
 						}catch(NumberFormatException e){
 							e.printStackTrace();
 						}

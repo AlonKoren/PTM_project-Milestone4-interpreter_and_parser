@@ -10,23 +10,37 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-public class Main {
+public class Main
+{
+//    private static final Environment env = new Environment();
 
-    private static final Environment env = new Environment();
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+        File file=new File("../PTM2 Project/scripts/script.txt");
+        runSimulator(file);
+    }
+
+
+
+    public static void runSimulator(File fileScript){
+        final Environment env=new Environment();
         Parser parser = new Parser(env);
         env.setParser(parser);
         env.setServer(new DataReaderServer(env));
         env.setClient(new SimpleClient());
-        File file=new File("./src/alon/flightsim/eli_script.txt");
-        try {
-            List<String> lexer = Lexer.Lexer(new FileReader(file));
+        try
+        {
+            List<String> lexer = Lexer.Lexer(new FileReader(fileScript));
 //            lexer.stream().forEach(s -> System.out.print(s+","));
 //            System.out.println();
             parser.parse(lexer);
-
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
         }
     }
+
+
+
 }

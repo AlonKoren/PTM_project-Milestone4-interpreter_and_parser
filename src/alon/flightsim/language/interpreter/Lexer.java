@@ -14,7 +14,8 @@ public class Lexer
         List<String> words =new ArrayList<>();
         BufferedReader reader = new BufferedReader(streamReader);
         String line;
-        try {
+        try
+        {
             while((line = reader.readLine())!=null){
                 Scanner scanner=new Scanner(line);
                 while(scanner.hasNext())
@@ -22,9 +23,8 @@ public class Lexer
                     String token = scanner.next();
                     if (!token.startsWith("\""))
                     {
-//                String[] splittedByMathChars = token.split("((?<=[^A-Za-z0-9])|(?=[^A-Za-z0-9]))");
+//                        String[] splittedByMathChars = token.split("((?<=[^A-Za-z0-9])|(?=[^A-Za-z0-9]))");
                         String[] splittedByMathChars = token.split("(?<=[-+*/()=])|(?=[-+*/()=])");
-
                         for (String word : splittedByMathChars)
                         {
                             words.add(word);
@@ -37,19 +37,24 @@ public class Lexer
                 }
                 words.add(EOL);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         return words;
     }
 
-    public static List<String> Lexer(String script) {
+    public static List<String> Lexer(String script)
+    {
         return Lexer(new InputStreamReader(new ByteArrayInputStream(script.getBytes())));
     }
 
-    public static List<String> Lexer(String[] script) {
+    public static List<String> Lexer(String[] script)
+    {
         List<String> list =new ArrayList<>();
-        for (String line : script) {
+        for (String line : script)
+        {
             list.addAll(Lexer.Lexer(line));
         }
         return list;

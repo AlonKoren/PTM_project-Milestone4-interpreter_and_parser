@@ -14,7 +14,8 @@ public class Plus extends BinaryExpression
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder=new StringBuilder();
         if (left != null)
             builder.append(left.toString());
