@@ -63,7 +63,7 @@ public class Parser
 
     public void Resume(){
         isStop=false;
-        if (parserthread!=null)
+        if (parserthread!=null && !parserthread.isAlive())
             parserthread.start();
     }
     public boolean isStop(){
