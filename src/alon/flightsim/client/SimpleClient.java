@@ -67,9 +67,11 @@ public class SimpleClient implements Client
     {
         try
         {
+            in.close();
+            printWriter.close();
             socket.close();
         }
-        catch (IOException e)
+        catch (IOException|NullPointerException e)
         {
         }
     }

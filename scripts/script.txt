@@ -30,7 +30,7 @@ var h0 = heading
 print h0
 print "$$$$$$$$$$$$$$$$$$$$"
 sleep 5000
-while alt < 1000 {
+while alt < 2500 {
 	print "&&&&&&&&&&&&&&&&&&&&"
 	rudder = (h0 - heading)/180
 	aileron = - roll / 70

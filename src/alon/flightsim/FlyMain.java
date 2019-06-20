@@ -6,6 +6,7 @@ import alon.flightsim.language.interpreter.Parser;
 import alon.flightsim.server.DataReaderServer;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 public class FlyMain
@@ -40,20 +41,10 @@ public class FlyMain
     }
 
     public void runSimulator(File fileScript){
-//        final Environment env=new Environment();
-//        Parser parser = new Parser(env);
-//        env.setParser(parser);
-//        env.setServer(new DataReaderServer(env));
-//        env.setClient(new SimpleClient());
-        try
-        {
-            List<String> lexer = Lexer.Lexer(new FileReader(fileScript));
-//            lexer.stream().forEach(s -> System.out.print(s+","));
-//            System.out.println();
-            this.env.getParser().threadparse(lexer);
-        }
-        catch (FileNotFoundException e)
-        {
+        try {
+            String[] lines = Files.lines(fileScript.toPath()).toArray(String[]::new);
+            runSimulator(lines);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

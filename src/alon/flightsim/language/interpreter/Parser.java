@@ -16,7 +16,7 @@ public class Parser
     private final Map<String, Command> commands;
     private final Environment env;
     private volatile boolean isStop;
-    Thread parserthread;
+    Thread parserthread=null;
     volatile List<String> words;
     public Parser(Environment env)
     {
@@ -36,14 +36,24 @@ public class Parser
     }
 
     public void threadparse(final List<String> wordsfinal){
-        List<String> words=wordsfinal;
-        parserthread=new Thread(() -> parse(words));
+        if (parserthread!=null){
+            try {
+                parserthread.stop();
+            }catch (SecurityException ignored){}
+        }
+        parserthread=new Thread(() -> {
+            System.out.println("start tread");
+            env.closeAll();
+            parse(wordsfinal);
+            System.out.println("end tread");
+        });
         if (!isStop)
             parserthread.start();
     }
 
     public void parse(List<String> words)
     {
+
         while (!words.isEmpty() && !isStop) {
             Command command = commands.getOrDefault(words.get(0), commands.get(VariableDeclarationCommand.CommandName));
 //            System.out.println(words.get(0));
@@ -59,12 +69,29 @@ public class Parser
 
     public void stop(){
         isStop=true;
+        if (parserthread!=null && parserthread.isAlive()) {
+                parserthread.suspend();
+        }
     }
 
     public void Resume(){
         isStop=false;
-        if (parserthread!=null && !parserthread.isAlive())
-            parserthread.start();
+        if (parserthread!=null) {
+            try{
+                parserthread.start();
+            }catch (IllegalThreadStateException e){
+                try{
+                    parserthread.resume();
+                }catch (SecurityException e1){
+                    e1.printStackTrace();
+                }
+
+
+//                parserthread.run();
+
+            }
+        }
+
     }
     public boolean isStop(){
         return isStop;

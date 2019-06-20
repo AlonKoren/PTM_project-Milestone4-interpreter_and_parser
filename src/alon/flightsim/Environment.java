@@ -135,4 +135,9 @@ public class Environment
     {
         this.parser = parser;
     }
+
+    public void closeAll() {
+        getClient().close();
+        getServer().stop();
+    }
 }
