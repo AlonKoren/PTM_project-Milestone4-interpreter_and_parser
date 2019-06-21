@@ -16,11 +16,9 @@ public class SleepCommand implements Command
     @Override
     public int execute(List<String> words)
     {
-//        System.out.println(words);
         try {
             Thread.sleep(Long.parseLong(words.get(1)));
-        } catch (InterruptedException e) {
-//            e.printStackTrace();
+        } catch (InterruptedException ignored) {
         }
         return 3;
     }

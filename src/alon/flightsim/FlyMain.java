@@ -33,7 +33,6 @@ public class FlyMain
     public void runSimulator(String... lines){
         for (String line : lines) {
             InputStream is = new ByteArrayInputStream(line.getBytes());
-            // read it with BufferedReader
             List<String> lexer = Lexer.Lexer(new InputStreamReader(is));
             this.env.getParser().threadparse(lexer);
         }

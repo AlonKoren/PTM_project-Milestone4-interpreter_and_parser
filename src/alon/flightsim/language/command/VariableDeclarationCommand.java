@@ -31,7 +31,6 @@ public class VariableDeclarationCommand implements Command {
 
             if (path.startsWith("\"") && path.endsWith("\""))
                 path =path.substring(path.indexOf("\"")+1,path.lastIndexOf("\""));
-//            System.out.println("text="+path);
             env.addBind(key,path);
             return 5+n;
         }
@@ -41,16 +40,7 @@ public class VariableDeclarationCommand implements Command {
                 List<String> stringList = arguments.subList(2 + n, arguments.indexOf(Lexer.EOL) );
                 String collect = String.join("", stringList);
                 Double value = ShuntingYard.calc(collect, env);
-//              System.out.println(key+" now = "+value);
-//              System.out.println("'"+key+"'='"+valuetext+"'");
-
                 env.setValue(key,value);
-
-//                env.getSymbolTable().put(key,value);
-//                if (env.getBindTable().containsKey(key))
-//                {
-//                    env.getClient().set(env.getBindTable().get(key),value);
-//                }
                 return 3+n+stringList.size();
             }
     }

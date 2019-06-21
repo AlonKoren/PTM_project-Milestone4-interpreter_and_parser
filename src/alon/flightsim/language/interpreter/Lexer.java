@@ -23,7 +23,6 @@ public class Lexer
                     String token = scanner.next();
                     if (!token.startsWith("\""))
                     {
-//                        String[] splittedByMathChars = token.split("((?<=[^A-Za-z0-9])|(?=[^A-Za-z0-9]))");
                         String[] splittedByMathChars = token.split("(?<=[-+*/()=])|(?=[-+*/()=])");
                         for (String word : splittedByMathChars)
                         {

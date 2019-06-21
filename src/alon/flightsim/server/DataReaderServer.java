@@ -28,7 +28,6 @@ public class DataReaderServer implements Server
     @Override
     public void listen(int port,int timeout)
     {
-//        System.out.printf("listen server on port %d\n",port);
         serverThread = new Thread(() -> {
             try
             {
@@ -39,7 +38,6 @@ public class DataReaderServer implements Server
                     try
                     {
                         Socket aClient = server.accept(); // blocking call
-//                        System.out.println("-> client connected");
                         try
                         {
                             InputStream clientInputStream = aClient.getInputStream();
@@ -47,17 +45,14 @@ public class DataReaderServer implements Server
                             clientInputStream.close();
                             aClient.close();
                         }
-                        catch (IOException e)
+                        catch (IOException ignored)
                         {
-//                            System.out.println("-> Received an IOException: " + e.getMessage());
                         }
                     }
-                    catch (SocketTimeoutException e)
+                    catch (SocketTimeoutException ignored)
                     {
-//                        System.out.println("-> No client connected within the set timeout, trying again...");
                     }
                 }
-//                System.out.println("-> Closing server");
                 server.close();
             }
             catch (IOException e)
@@ -73,8 +68,6 @@ public class DataReaderServer implements Server
         String line;
         while ((line = in.readLine()) != null)
         {
-//                System.out.println("Received from simulator: " + line);
-            // TODO implement map population
             String[] split = line.split(",");
             for (String s : split)
             {

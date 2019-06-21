@@ -14,17 +14,12 @@ public class SimpleClient implements Client
     {
         try
         {
-//            System.out.printf("connect client to server on %s::%d\n",ip,port);
             socket = new Socket(ip, port);
             Thread.sleep(1000);
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
             in = new BufferedReader(new InputStreamReader(inputStream));
             printWriter = new PrintWriter(new OutputStreamWriter(outputStream));
-//            System.out.println("send request");
-//            Double value = this.getValue("/instrumentation/altimeter/indicated-altitude-ft");
-//            System.out.println(value);
-
         }
         catch (IOException | InterruptedException e)
         {
@@ -40,14 +35,11 @@ public class SimpleClient implements Client
 
     @Override
     public Double getValue(String path) {
-//        System.out.println("path="+path);
         this.sendLine("get "+path);
         try {
             String s=null;
             while (!(s = in.readLine()).contains(path));
-//            System.out.println("text from simulator:"+s);
             String substring = s.substring(s.indexOf("'")+1, s.lastIndexOf("'"));
-//            System.out.println("word="+substring);
             return Double.parseDouble(!substring.isEmpty()?substring:"0");
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +49,6 @@ public class SimpleClient implements Client
 
     @Override
     public void sendLine(String line) {
-//        System.out.println(line);
         printWriter.println(line);
         printWriter.flush();
     }

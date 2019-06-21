@@ -42,10 +42,8 @@ public class Parser
             }catch (SecurityException ignored){}
         }
         parserthread=new Thread(() -> {
-            System.out.println("start tread");
             env.closeAll();
             parse(wordsfinal);
-            System.out.println("end tread");
         });
         if (!isStop)
             parserthread.start();
@@ -56,7 +54,6 @@ public class Parser
 
         while (!words.isEmpty() && !isStop) {
             Command command = commands.getOrDefault(words.get(0), commands.get(VariableDeclarationCommand.CommandName));
-//            System.out.println(words.get(0));
             int numOfArgs = command.execute(words);
             words = words.subList(numOfArgs, words.size());
         }
@@ -85,10 +82,6 @@ public class Parser
                 }catch (SecurityException e1){
                     e1.printStackTrace();
                 }
-
-
-//                parserthread.run();
-
             }
         }
 

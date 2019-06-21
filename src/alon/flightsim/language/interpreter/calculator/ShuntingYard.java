@@ -17,34 +17,25 @@ public class ShuntingYard
         Expression expression;
         try
         {
-//            System.out.println("SplitStringExpression");
-//            System.out.println("strexpression="+strexpression);
             arrayList = SplitStringExpression(strexpression);
-//            System.out.println("arrayList="+arrayList);
             queue=ArrayListStringtoQueueString(arrayList);
-//            System.out.println("queue="+queue);
             stack=QueueStringtoStackExpression(queue,environment);
-//            System.out.println("stack="+stack);
             expression=StackExpressiontoExpression(stack,environment);
-//            System.out.println("expression="+expression.toString());
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             return 0.0;
         }
         double d=expression.calculate();
         d *= 100;
         d = Math.floor(d);
         d /= 100;
-//        System.out.println("***************************");
         return d;
     }
     static int flag=0;
     private static ArrayList<String> SplitStringExpression(String expression) throws Exception
     {
         expression = expression.replace('–','-');
-        //System.out.println(expression);
         ArrayList<String> arrayList=new ArrayList<>();
         String[] expressionchar =expression.split("");
         String num = "";
@@ -99,8 +90,6 @@ public class ShuntingYard
                         throw new Exception("Wrong input at index= "+i+" as char= '"+expressionchar[i]+"' for expression='"+expression+"'");
                     }
         }
-        //System.out.println("arrayList = "+arrayList.toString());
-        //System.out.println("size = "+arrayList.size());
         return arrayList;
     }
 
@@ -167,8 +156,6 @@ public class ShuntingYard
             }
             queue.add(string);
         }
-        //System.out.println("queue = "+queue.toString());
-        //System.out.println("size = "+queue.size());
         return queue;
     }
 
@@ -255,7 +242,6 @@ public class ShuntingYard
         return binaryExpression;
     }
     private static boolean IsGreaterPrecedence(String binexp,String binexpstack)
-    /////binexp<=binexpstack
     {
         switch (binexpstack)
         {

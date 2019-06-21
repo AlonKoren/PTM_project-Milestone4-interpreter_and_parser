@@ -17,7 +17,6 @@ public class DisconnectCommand implements Command
     @Override
     public int execute(List<String> arguments)
     {
-        // validate arguments
         env.getClient().sendLine("bye");
         env.getClient().close();
         return 2;

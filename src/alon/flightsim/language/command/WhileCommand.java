@@ -23,14 +23,6 @@ public class WhileCommand implements Command
 
         int condsize =args.indexOf("{");
         List<String> block = args.subList(args.indexOf(Lexer.EOL)+1, args.indexOf("}"));
-//        System.out.println("condition="+args.subList(0,args.indexOf("{")));
-//        System.out.println("condsize="+condsize);
-//        System.out.println("block="+block);
-//        System.out.println(block.size());
-//        if (!args.get(0).equals("{")) {
-//            throw new RuntimeException("expected { and get "+args.get(0));
-//        }
-//        System.out.println(block);
         while (condition.evaluate()) {
             env.getParser().parse(block);
         }

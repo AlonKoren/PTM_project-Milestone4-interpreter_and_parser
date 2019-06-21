@@ -19,15 +19,13 @@ public class ReturnCommand implements Command
     @Override
     public int execute(List<String> arguments)
     {
-        // validate arguments
         List<String> stringList = arguments.subList(1, arguments.indexOf(Lexer.EOL) );
         String collect = String.join("", stringList);
         Double value = ShuntingYard.calc(collect, env);
         env.setReturnValue((int)Math.floor(value));
         try {
             Thread.sleep(100);
-        } catch (InterruptedException e) {
-//            e.printStackTrace();
+        } catch (InterruptedException ignored) {
         }
         return arguments.indexOf(Lexer.EOL)+1;
     }

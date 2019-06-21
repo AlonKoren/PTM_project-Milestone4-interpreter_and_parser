@@ -16,7 +16,6 @@ public class PrintCommand implements Command
     @Override
     public int execute(List<String> arguments)
     {
-        // validate arguments
         String word = arguments.get(1);
         if (word.startsWith("\"") && word.endsWith("\""))
             word =word.substring(word.indexOf("\"")+1,word.lastIndexOf("\""));
