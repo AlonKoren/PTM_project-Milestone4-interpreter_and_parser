@@ -24,8 +24,16 @@ public class Lexer
                     if (!token.startsWith("\""))
                     {
                         String[] splittedByMathChars = token.split("(?<=[-+*/()=])|(?=[-+*/()=])");
-                        for (String word : splittedByMathChars)
-                        {
+
+                        for (int i = 0; i < splittedByMathChars.length; i++) {
+                            String word = splittedByMathChars[i];
+                            if (word.equals("<")||word.equals("=")||word.equals(">")||word.equals("!")){
+                                if(i<splittedByMathChars.length-1 && splittedByMathChars[i+1].equals("=")){
+                                    words.add(word+"=");
+                                    i++;
+                                    continue;
+                                }
+                            }
                             words.add(word);
                         }
                     }

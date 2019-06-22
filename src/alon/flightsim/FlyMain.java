@@ -7,6 +7,7 @@ import alon.flightsim.server.DataReaderServer;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 
 public class FlyMain
@@ -30,19 +31,18 @@ public class FlyMain
     }
 
 
-    public void runSimulator(String... lines){
-        for (String line : lines) {
-            InputStream is = new ByteArrayInputStream(line.getBytes());
-            List<String> lexer = Lexer.Lexer(new InputStreamReader(is));
-            this.env.getParser().threadparse(lexer);
-        }
-
+    public void runSimulator(String line){
+        InputStream is = new ByteArrayInputStream(line.getBytes());
+        List<String> lexer = Lexer.Lexer(new InputStreamReader(is));
+        this.env.getParser().threadparse(lexer);
     }
 
     public void runSimulator(File fileScript){
         try {
             String[] lines = Files.lines(fileScript.toPath()).toArray(String[]::new);
-            runSimulator(lines);
+//            System.out.println("runSimulator="+lines.length+" <=> "+Arrays.toString(lines));
+            String text = String.join(System.lineSeparator(), lines);
+            runSimulator(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,4 +57,7 @@ public class FlyMain
         }
     }
 
+    public Environment getEnv() {
+        return env;
+    }
 }

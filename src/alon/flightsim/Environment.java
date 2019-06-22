@@ -13,13 +13,13 @@ import java.util.stream.Stream;
 
 public class Environment
 {
-    private Map<String, String> bindTable = new ConcurrentHashMap<>();
-    private Map<String, Double> symbolTable = new ConcurrentHashMap<>();
-    private Client client;
-    private Server server;
-    private Parser parser;
-    private int returnValue = 0;
-    private Queue<Double> defaultValues =new ConcurrentLinkedQueue<>();
+    private volatile Map<String, String> bindTable = new ConcurrentHashMap<>();
+    private volatile Map<String, Double> symbolTable = new ConcurrentHashMap<>();
+    private volatile Client client;
+    private volatile Server server;
+    private volatile Parser parser;
+    private volatile int returnValue = 0;
+    private volatile Queue<Double> defaultValues =new ConcurrentLinkedQueue<>();
 
     public Queue<Double> getDefaultValues()
     {
@@ -36,7 +36,7 @@ public class Environment
         this.returnValue = returnValue;
     }
 
-    public Double getBind(String bindTableKey)
+    private Double getBind(String bindTableKey)
     {
         String path = this.bindTable.get(bindTableKey);
         Double value = this.client.getValue(path);
@@ -44,7 +44,7 @@ public class Environment
         return value;
     }
 
-    public void setBind(String bindTableKey,Double value)
+    private void setBind(String bindTableKey,Double value)
     {
         String path = this.bindTable.get(bindTableKey);
         this.client.set(path,value);
@@ -60,12 +60,12 @@ public class Environment
                 });
     }
 
-    public Double getSymbol(String symbolTableKey)
+    private Double getSymbol(String symbolTableKey)
     {
         return this.symbolTable.get(symbolTableKey);
     }
 
-    public void setSymbol(String symbolTableKey,Double value)
+    private void setSymbol(String symbolTableKey,Double value)
     {
         this.symbolTable.put(symbolTableKey,value);
     }
@@ -137,6 +137,9 @@ public class Environment
     }
 
     public void closeAll() {
+        defaultValues.clear();
+        symbolTable.clear();
+        bindTable.clear();
         getClient().close();
         getServer().stop();
     }
