@@ -3,7 +3,7 @@
 Writing a code interpreter to parse a new programming language that controls an unmanned aircraft.
 
 ## Introduction
----
+
 In this repository, I will introduce milestone 4 in the final project of the Advanced Software Development course.
 The goal in this milestone was to write an interpreter for a code that controls an unmanned aircraft.
 The aircraft will fly in the virtual space of the "FlightGear" flight simulator.
@@ -12,7 +12,6 @@ This allows us to easily retrieve information about the various flight parameter
 
 
 ## Script Reader ( Interpreter )
----
 
 As mentioned, we would like to write an interpreter for a new programming language aimed at flying the aircraft in the simulator.
 First, we set a sample code that aims to make the plane take off in a straight line.
@@ -49,26 +48,26 @@ For this purpose, we wrote an interpreter which allows us to open a server, conn
 
 We can see that arithmetic expressions are supported as well, and to interpret them we use Dijkstra's Shunting Yard algorithm.
 
----
-### So, how does it work?
 
-#### Lexer
+## So, how does it work?
+
+### Lexer
 
 A class called Lexer whose job is to read the script that needs to be interpreted (a single line from the console or a complete file of commands) and it will return an array of strings. 
 Each string is a word in the program that needs to be interpreted.
 
 <p align="center">
-  <img src="/readme_images/Lexer.jpg" width="600">
+  <img src="/readme_images/Lexer.jpg" width="650">
 </p>
 
-#### Parser
+### Parser
 
 A class called Parser that passes through each string in the array that the lexer created.
 Each string will be used as a key by which we will extract the appropriate command type object from the map,
 for the execute method of that command we will enter the rest of the line as an array of strings.
 The execute method will verify that the array size is the number of parameters in the script.
 
-##### The design pattern
+#### The design pattern
 
 The design pattern we use to implement the Parser is Command Pattern.
 To do this, we will define an interface named Command with method execute().
@@ -80,5 +79,5 @@ and the value is a specific type of command.
 So given the string, we can immediately pull out the command that needs to be executed.
 
 <p align="center">
-  <img src="/readme_images/Parser.jpg" width="600">
+  <img src="/readme_images/Parser.jpg" width="650">
 </p>
